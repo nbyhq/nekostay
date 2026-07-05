@@ -1,5 +1,4 @@
-<!-- cat > resources/views/layouts/navigation.blade.php << 'EOF' -->
-<aside class="w-64 shrink-0 bg-white border-r border-gray-200 flex flex-col">
+<aside class="w-64 shrink-0 bg-white border-r border-gray-200 flex flex-col sticky top-0 h-screen overflow-y-auto">
     <!-- Logo -->
     <div class="px-6 py-6">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
@@ -25,6 +24,7 @@
                 ['label' => 'Adoption Requests', 'route' => 'adoptions.index', 'path' => 'adoptions*'],
                 ['label' => 'Profile Settings', 'route' => 'profile.edit', 'path' => 'profile*'],
             ];
+            $hideIntakeButton = request()->routeIs('profile.edit') || request()->routeIs('cats.create');
         @endphp
 
         @foreach ($navItems as $item)
@@ -38,11 +38,12 @@
     </nav>
 
     <!-- Add New Intake button -->
-    <div class="p-3 border-t border-gray-100">
-        <a href="{{ \Illuminate\Support\Facades\Route::has('cats.create') ? route('cats.create') : '#' }}"
-           class="flex items-center justify-center gap-2 w-full bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-emerald-800 transition">
-            <span>+ Add New Intake</span>
-        </a>
-    </div>
+    @unless($hideIntakeButton)
+        <div class="p-3 border-t border-gray-100">
+            <a href="{{ \Illuminate\Support\Facades\Route::has('cats.create') ? route('cats.create') : '#' }}"
+               class="flex items-center justify-center gap-2 w-full bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-emerald-800 transition">
+                <span>+ Add New Intake</span>
+            </a>
+        </div>
+    @endunless
 </aside>
-<!-- EOF -->
