@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Cat;
 use App\Models\Adoption;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -10,15 +11,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AdoptionFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'cat_id' => Cat::inRandomOrder()->first()?->id ?? Cat::factory(),
+            'adopter_name' => $this->faker->name(),
+            'adopter_phone' => $this->faker->numerify('(###) ###-####'),
+            'adopter_address' => $this->faker->address(),
+            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
+            'notes' => $this->faker->optional()->sentence(10),
         ];
     }
 }
