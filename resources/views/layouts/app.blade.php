@@ -1,4 +1,4 @@
-cat > resources/views/layouts/app.blade.php << 'EOF'
+<!-- cat > resources/views/layouts/app.blade.php << 'EOF' -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -81,6 +81,7 @@ cat > resources/views/layouts/app.blade.php << 'EOF'
                 </main>
             </div>
         </div>
+        @stack('scripts')
     </body>
 </html>
 EOF

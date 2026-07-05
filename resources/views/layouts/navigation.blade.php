@@ -1,4 +1,4 @@
-cat > resources/views/layouts/navigation.blade.php << 'EOF'
+<!-- cat > resources/views/layouts/navigation.blade.php << 'EOF' -->
 <aside class="w-64 shrink-0 bg-white border-r border-gray-200 flex flex-col">
     <!-- Logo -->
     <div class="px-6 py-6">
