@@ -84,4 +84,4 @@
         @stack('scripts')
     </body>
 </html>
-EOF
+<!-- EOF -->

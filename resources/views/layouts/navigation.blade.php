@@ -45,4 +45,4 @@
         </a>
     </div>
 </aside>
-EOF
+<!-- EOF -->
