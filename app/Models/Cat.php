@@ -32,4 +32,5 @@ class Cat extends Model
     {
         return $this->hasMany(Adoption::class);
     }
+    
 }
