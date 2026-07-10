@@ -24,7 +24,7 @@ class CatFactory extends Factory
             'color' => $this->faker->randomElement($colors),
             'status' => $this->faker->randomElement(['rescued', 'in_treatment', 'ready_for_adoption', 'adopted']),
             'rescue_location' => $this->faker->streetName(),
-            'photo' => null,
+            'photo' => 'https://cataas.com/cat?width=150&height=150&_=' . $this->faker->unique()->numberBetween(1, 999999),
             'description' => $this->faker->sentence(12),
         ];
     }

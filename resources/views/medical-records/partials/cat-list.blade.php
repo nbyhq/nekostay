@@ -53,8 +53,8 @@
                     @if($cat->photo)
 
                         <img
-                            src="{{ asset('storage/'.$cat->photo) }}"
-                            class="w-14 h-14 rounded-full object-cover border">
+                            src="{{ str_starts_with($cat->photo, 'http') ? $cat->photo : asset('storage/'.$cat->photo) }}"
+                            class="w-14 h-14 rounded-full object-cover border" loading="lazy">
 
                     @else
 
