@@ -21,7 +21,7 @@ class StoreCatRequest extends FormRequest
             'color' => ['nullable', 'string', 'max:50'],
             'status' => ['required', 'in:rescued,in_treatment,ready_for_adoption,adopted'],
             'rescue_location' => ['nullable', 'string', 'max:150'],
-            'photo' => ['nullable', 'image', 'max:5120'],
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'description' => ['nullable', 'string', 'max:1000'],
         ];
     }

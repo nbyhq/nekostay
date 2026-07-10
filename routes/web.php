@@ -4,7 +4,7 @@ use App\Http\Controllers\CatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\MedicalRecordController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,6 +23,18 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/cats/{cat}', [CatController::class, 'destroy'])->name('cats.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::resource('medical-records', MedicalRecordController::class)
+        ->only([
+            'index',
+            'store',
+            'update',
+            'destroy',
+        ]);
+
 });
 
 require __DIR__.'/auth.php';

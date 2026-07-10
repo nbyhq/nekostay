@@ -9,12 +9,33 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('medical_records', function (Blueprint $table) {
+
             $table->id();
-            $table->foreignId('cat_id')->constrained()->onDelete('cascade');
-            $table->enum('type', ['vaccine', 'deworm', 'sterilization', 'checkup', 'other']);
-            $table->text('description')->nullable();
-            $table->date('treated_at');
-            $table->string('vet_name')->nullable();
+
+            $table->foreignId('cat_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->date('visit_date');
+
+            $table->string('doctor');
+
+            $table->text('diagnosis');
+
+            $table->text('treatment')->nullable();
+
+            $table->text('notes')->nullable();
+
+            $table->decimal('weight',5,2)->nullable();
+
+            $table->decimal('temperature',4,1)->nullable();
+
+            $table->enum('status',[
+                'Healthy',
+                'Treatment',
+                'Recovery'
+            ]);
+
             $table->timestamps();
         });
     }
