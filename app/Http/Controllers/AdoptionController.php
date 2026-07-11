@@ -80,6 +80,16 @@ class AdoptionController extends Controller
     }
 
     /**
+     * Display the specified adoption request (read-only).
+     */
+    public function show(Adoption $adoption)
+    {
+        $adoption->load('cat');
+
+        return view('adoptions.show', compact('adoption'));
+    }
+
+    /**
      * Show the form for editing an adoption request.
      */
     public function edit(Adoption $adoption)

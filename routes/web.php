@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MedicalRecordController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,27 +21,18 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('cats', CatController::class)->except(['destroy', 'show']);
+    Route::resource('adoptions', AdoptionController::class)->except(['destroy', 'update']);
 
-    Route::resource('adoptions', AdoptionController::class)->except(['destroy', 'show']);
-    Route::patch('/adoptions/{adoption}/status', [AdoptionController::class, 'updateStatus'])
-        ->name('adoptions.updateStatus');
+    Route::resource('medical-records', MedicalRecordController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/cats/{cat}', [CatController::class, 'destroy'])->name('cats.destroy');
     Route::delete('/adoptions/{adoption}', [AdoptionController::class, 'destroy'])->name('adoptions.destroy');
-});
-
-Route::middleware(['auth'])->group(function () {
-
-    Route::resource('medical-records', MedicalRecordController::class)
-        ->only([
-            'index',
-            'store',
-            'update',
-            'destroy',
-        ]);
-
+    Route::patch('/adoptions/{adoption}', [AdoptionController::class, 'update'])->name('adoptions.update');
+    Route::patch('/adoptions/{adoption}/status', [AdoptionController::class, 'updateStatus'])
+        ->name('adoptions.updateStatus');
 });
 
 require __DIR__.'/auth.php';
