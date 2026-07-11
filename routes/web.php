@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -19,10 +20,15 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('cats', CatController::class)->except(['destroy', 'show']);
+
+    Route::resource('adoptions', AdoptionController::class)->except(['destroy', 'show']);
+    Route::patch('/adoptions/{adoption}/status', [AdoptionController::class, 'updateStatus'])
+        ->name('adoptions.updateStatus');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/cats/{cat}', [CatController::class, 'destroy'])->name('cats.destroy');
+    Route::delete('/adoptions/{adoption}', [AdoptionController::class, 'destroy'])->name('adoptions.destroy');
 });
 
 Route::middleware(['auth'])->group(function () {

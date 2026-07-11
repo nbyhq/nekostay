@@ -84,6 +84,9 @@
                                 </span>
                             </td>
                             <td class="px-5 py-3 text-right space-x-2">
+                                @if ($cat->status === 'ready_for_adoption')
+                                    <a href="{{ route('adoptions.create', ['cat' => $cat->id]) }}" class="text-emerald-700 hover:underline text-sm font-medium">Adopt</a>
+                                @endif
                                 <a href="{{ route('cats.edit', $cat) }}" class="text-emerald-700 hover:underline text-sm font-medium">Edit</a>
                                 @role('admin')
                                     <form action="{{ route('cats.destroy', $cat) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus data kucing ini?');">
