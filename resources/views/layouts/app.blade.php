@@ -27,11 +27,6 @@
                         </div>
 
                         <div class="flex items-center gap-4 shrink-0">
-                            <button class="text-gray-400 hover:text-gray-600 relative">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                </svg>
-                            </button>
 
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
@@ -40,9 +35,13 @@
                                             <div class="text-sm font-semibold text-gray-800">{{ Auth::user()->name }}</div>
                                             <div class="text-xs text-gray-500">{{ Auth::user()->getRoleNames()->first() ?? 'Staff' }}</div>
                                         </div>
-                                        <div class="h-9 w-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-semibold text-sm">
-                                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                                        </div>
+                                        @if (Auth::user()->photo)
+                                            <img src="{{ str_starts_with(Auth::user()->photo, 'http') ? Auth::user()->photo : Storage::url(Auth::user()->photo) }}" class="h-9 w-9 rounded-full object-cover">
+                                        @else
+                                            <div class="h-9 w-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-semibold text-sm">
+                                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                            </div>
+                                        @endif
                                     </button>
                                 </x-slot>
 
