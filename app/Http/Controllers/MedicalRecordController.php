@@ -11,7 +11,7 @@ class MedicalRecordController extends Controller
 {
     public function index(Request $request)
 {
-    $cats = Cat::orderBy('name')->get();
+    $cats = Cat::orderBy('name')->paginate(6)->withQueryString();
 
     $selectedCat = null;
 

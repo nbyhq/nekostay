@@ -2,11 +2,7 @@
     <!-- Logo -->
     <div class="px-6 py-6">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-            <div class="h-9 w-9 rounded-lg bg-emerald-600 flex items-center justify-center">
-                <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 14c-3.5 0-6 2.5-6 5v1h12v-1c0-2.5-2.5-5-6-5z M7 8a2 2 0 100-4 2 2 0 000 4z M17 8a2 2 0 100-4 2 2 0 000 4z M4 12a2 2 0 100-4 2 2 0 000 4z M20 12a2 2 0 100-4 2 2 0 000 4z"/>
-                </svg>
-            </div>
+            <img src="{{ asset('images/logo.png') }}" class="h-9 w-9 rounded-lg object-cover shrink-0 block" alt="NekoStay logo">
             <div>
                 <div class="font-bold text-emerald-800 leading-tight">NekoStay</div>
                 <div class="text-xs text-gray-500 leading-tight">Rescue Management</div>
@@ -22,9 +18,14 @@
                 ['label' => 'Cat Management', 'route' => 'cats.index', 'path' => 'cats*'],
                 ['label' => 'Medical Records', 'route' => 'medical-records.index', 'path' => 'medical-records*'],
                 ['label' => 'Adoption Requests', 'route' => 'adoptions.index', 'path' => 'adoptions*'],
-                ['label' => 'Profile Settings', 'route' => 'profile.edit', 'path' => 'profile*'],
             ];
-            $hideIntakeButton = request()->routeIs('profile.edit') || request()->routeIs('cats.create');
+
+            if (auth()->user()->hasRole('admin')) {
+                $navItems[] = ['label' => 'Manage Staff', 'route' => 'staff.index', 'path' => 'staff*'];
+            }
+
+            $navItems[] = ['label' => 'Profile Settings', 'route' => 'profile.edit', 'path' => 'profile*'];
+            $hideIntakeButton = request()->routeIs('profile.edit') || request()->routeIs('cats.create') || request()->routeIs('adoptions.*') || request()->routeIs('medical-records.*') || request()->routeIs('staff.*');
         @endphp
 
         @foreach ($navItems as $item)

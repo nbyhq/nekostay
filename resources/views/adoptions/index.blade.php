@@ -44,16 +44,14 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by adopter name, phone, or cat..."
-                    class="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    class="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
             </div>
-
             <select name="status" class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                <option value="all" @selected(!request('status') || request('status') === 'all')>All Statuses</option>
+                <option value="all">All Statuses</option>
                 <option value="pending" @selected(request('status') === 'pending')>Pending</option>
                 <option value="approved" @selected(request('status') === 'approved')>Approved</option>
                 <option value="rejected" @selected(request('status') === 'rejected')>Rejected</option>
             </select>
-
             <button type="submit" class="text-sm border border-gray-200 rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-50">
                 Search
             </button>
@@ -104,19 +102,27 @@
                             <td class="px-5 py-3 text-right">
                                 <div class="flex items-center justify-end gap-2 flex-wrap">
                                     @if ($adoption->status === 'pending')
-                                        <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Setujui permohonan adopsi ini? Status kucing akan berubah menjadi Adopted.');">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="status" value="approved">
-                                            <button type="submit" class="text-emerald-700 hover:underline text-sm font-medium">Approve</button>
-                                        </form>
-                                        <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Tolak permohonan adopsi ini?');">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="status" value="rejected">
-                                            <button type="submit" class="text-red-600 hover:underline text-sm font-medium">Reject</button>
-                                        </form>
+                                        @role('admin')
+                                            <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Setujui permohonan adopsi ini? Status kucing akan berubah menjadi Adopted.');">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="text-emerald-700 hover:underline text-sm font-medium">Approve</button>
+                                            </form>
+                                            <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Tolak permohonan adopsi ini?');">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="rejected">
+                                                <button type="submit" class="text-red-600 hover:underline text-sm font-medium">Reject</button>
+                                            </form>
+                                        @endrole
                                     @endif
+                                    <a href="{{ route('adoptions.show', $adoption) }}" class="inline-flex items-center justify-center h-8 w-8 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-emerald-700 transition" title="View details">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </a>
                                     <a href="{{ route('adoptions.edit', $adoption) }}" class="text-gray-600 hover:underline text-sm font-medium">Edit</a>
                                     @role('admin')
                                         <form action="{{ route('adoptions.destroy', $adoption) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus permohonan adopsi ini?');">
