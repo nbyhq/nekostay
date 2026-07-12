@@ -1,10 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="font-bold text-2xl text-gray-800">Manage Staff</h2>
-            </div>
-            <a href="{{ route('staff.create') }}" class="bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 class="font-bold text-2xl text-gray-800">Manage Staff</h2>
+            <a href="{{ route('staff.create') }}" class="shrink-0 whitespace-nowrap bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">
                 + Add New Staff
             </a>
         </div>
@@ -28,7 +26,8 @@
                 class="w-full max-w-sm px-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
         </form>
 
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <!-- Table (desktop) -->
+        <div class="hidden md:block bg-white rounded-xl shadow-sm overflow-hidden">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="text-left text-xs text-gray-400 uppercase border-b border-gray-100 bg-gray-50">
@@ -75,6 +74,49 @@
             </table>
 
             <div class="px-5 py-4 border-t border-gray-100">
+                {{ $users->links() }}
+            </div>
+        </div>
+
+        <!-- Cards (mobile) -->
+        <div class="md:hidden space-y-3">
+            @forelse ($users as $user)
+                <div class="bg-white rounded-xl shadow-sm p-4">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="min-w-0">
+                            <div class="font-semibold text-gray-800 truncate">
+                                {{ $user->name }}
+                                @if ($user->id === auth()->id())
+                                    <span class="text-xs text-gray-400 font-normal">(You)</span>
+                                @endif
+                            </div>
+                            <div class="text-xs text-gray-500 truncate mt-0.5">{{ $user->email }}</div>
+                        </div>
+                        <span class="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap {{ $user->hasRole('admin') ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700' }}">
+                            {{ strtoupper($user->getRoleNames()->first() ?? '-') }}
+                        </span>
+                    </div>
+
+                    <div class="text-xs text-gray-400 mt-2">
+                        Joined {{ $user->created_at->format('d M Y') }}
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-end gap-4">
+                        <a href="{{ route('staff.edit', $user) }}" class="text-emerald-700 text-sm font-medium">Edit</a>
+                        @if ($user->id !== auth()->id())
+                            <form action="{{ route('staff.destroy', $user) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus akun {{ $user->name }}?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 text-sm font-medium">Delete</button>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <div class="bg-white rounded-xl shadow-sm p-8 text-center text-gray-400">Belum ada data staff.</div>
+            @endforelse
+
+            <div class="pt-2">
                 {{ $users->links() }}
             </div>
         </div>
