@@ -80,7 +80,7 @@
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="h-40 bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center">
                 @if ($adoption->cat && $adoption->cat->photo)
-                    <img src="{{ str_starts_with($adoption->cat->photo, 'http') ? $adoption->cat->photo : asset('storage/'.$adoption->cat->photo) }}"
+                    <img src="{{ $adoption->cat->photo_url }}"
                          class="w-full h-full object-cover" loading="lazy">
                 @else
                     <div class="text-6xl">🐱</div>

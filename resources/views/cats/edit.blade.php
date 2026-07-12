@@ -83,7 +83,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Cat Photo</label>
                 @if ($cat->photo)
-                    <img src="{{ str_starts_with($cat->photo, "http") ? $cat->photo : Storage::url($cat->photo) }}" class="h-24 w-24 rounded-lg object-cover mb-3">
+                    <img src="{{ $cat->photo_url }}" class="h-24 w-24 rounded-lg object-cover mb-3">
                 @endif
                 <div class="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
                     <input type="file" name="photo" accept="image/*" class="text-sm text-gray-500">

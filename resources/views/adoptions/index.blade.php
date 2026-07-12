@@ -73,7 +73,7 @@
                             <td class="px-5 py-3">
                                 <div class="flex items-center gap-3">
                                     @if ($adoption->cat && $adoption->cat->photo)
-                                        <img src="{{ str_starts_with($adoption->cat->photo, 'http') ? $adoption->cat->photo : Storage::url($adoption->cat->photo) }}" class="h-10 w-10 rounded-lg object-cover" loading="lazy">
+                                        <img src="{{ $adoption->cat->photo_url }}" class="h-10 w-10 rounded-lg object-cover" loading="lazy">
                                     @else
                                         <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 text-xs">N/A</div>
                                     @endif
@@ -150,7 +150,7 @@
                 <div class="bg-white rounded-xl shadow-sm p-4">
                     <div class="flex items-start gap-3">
                         @if ($adoption->cat && $adoption->cat->photo)
-                            <img src="{{ str_starts_with($adoption->cat->photo, 'http') ? $adoption->cat->photo : Storage::url($adoption->cat->photo) }}" class="h-12 w-12 rounded-lg object-cover shrink-0" loading="lazy">
+                            <img src="{{ $adoption->cat->photo_url }}" class="h-12 w-12 rounded-lg object-cover shrink-0" loading="lazy">
                         @else
                             <div class="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 text-xs shrink-0">N/A</div>
                         @endif

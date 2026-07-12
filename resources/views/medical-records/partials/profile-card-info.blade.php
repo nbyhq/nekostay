@@ -10,7 +10,7 @@
             @if($selectedCat->photo)
 
                 <img
-                    src="{{ str_starts_with($selectedCat->photo, 'http') ? $selectedCat->photo : asset('storage/'.$selectedCat->photo) }}"
+                    src="{{ $selectedCat->photo_url }}"
                     alt="{{ $selectedCat->name }}"
                     class="w-full h-full object-cover">
 

@@ -55,7 +55,7 @@
                         <tr class="border-b border-gray-50 hover:bg-gray-50">
                             <td class="px-5 py-3">
                                 @if ($cat->photo)
-                                    <img src="{{ str_starts_with($cat->photo, "http") ? $cat->photo : Storage::url($cat->photo) }}" class="h-12 w-12 rounded-lg object-cover" loading="lazy">
+                                    <img src="{{ $cat->photo_url }}" class="h-12 w-12 rounded-lg object-cover" loading="lazy">
                                 @else
                                     <div class="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 text-xs">No Photo</div>
                                 @endif
@@ -113,7 +113,7 @@
                 <div class="bg-white rounded-xl shadow-sm p-4">
                     <div class="flex items-start gap-3">
                         @if ($cat->photo)
-                            <img src="{{ str_starts_with($cat->photo, "http") ? $cat->photo : Storage::url($cat->photo) }}" class="h-14 w-14 rounded-lg object-cover shrink-0" loading="lazy">
+                            <img src="{{ $cat->photo_url }}" class="h-14 w-14 rounded-lg object-cover shrink-0" loading="lazy">
                         @else
                             <div class="h-14 w-14 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 text-[10px] shrink-0 text-center">No Photo</div>
                         @endif
