@@ -1,4 +1,4 @@
-<div class="bg-white rounded-2xl shadow-sm border border-gray-200 h-[calc(100vh-180px)] flex flex-col">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-200 flex flex-col lg:h-[calc(100vh-180px)]">
 
     <!-- Header -->
     <div class="flex items-center justify-between p-6 border-b border-gray-100">
@@ -61,16 +61,10 @@
 
         </div>
 
-        <button
-            onclick="openModal()"
-            class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl transition">
-            + Add Record
-        </button>
-
     </div>
 
     <!-- Timeline -->
-    <div class="flex-1 overflow-y-auto p-6">
+    <div class="flex-1 lg:overflow-y-auto p-6">
 
         @if($medicalRecords->count())
 

@@ -1,4 +1,4 @@
-<div class="bg-white rounded-2xl shadow-sm border border-gray-200 h-[calc(100vh-180px)] flex flex-col">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-200 flex flex-col lg:h-[calc(100vh-180px)]">
     <!-- Header -->
     <div class="p-5 border-b border-gray-100">
         <h2 class="text-xl font-bold text-gray-800">
@@ -24,7 +24,7 @@
     </div>
 
     <!-- List -->
-    <div id="catList" class="flex-1 overflow-y-auto divide-y divide-gray-100">
+    <div id="catList" class="flex-1 lg:overflow-y-auto divide-y divide-gray-100">
         @forelse($cats as $cat)
             <a href="{{ route('medical-records.index',['cat'=>$cat->id]) }}"
                 class="cat-item block"
