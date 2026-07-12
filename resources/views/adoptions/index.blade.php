@@ -1,12 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="font-bold text-2xl text-gray-800">Adoption Requests</h2>
-                <p class="text-sm text-gray-500 mt-1">Review, approve, or reject applications from prospective adopters.</p>
-            </div>
-            <a href="{{ route('adoptions.create') }}" class="bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">
-                + New Adoption Request
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 class="font-bold text-2xl text-gray-800">Adoption Requests</h2>
+            <a href="{{ route('adoptions.create') }}" class="shrink-0 whitespace-nowrap bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">
+                + New Request
             </a>
         </div>
     </x-slot>
@@ -44,23 +41,21 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by adopter name, phone, or cat..."
-                    class="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    class="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
             </div>
-
             <select name="status" class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                <option value="all" @selected(!request('status') || request('status') === 'all')>All Statuses</option>
+                <option value="all">All Statuses</option>
                 <option value="pending" @selected(request('status') === 'pending')>Pending</option>
                 <option value="approved" @selected(request('status') === 'approved')>Approved</option>
                 <option value="rejected" @selected(request('status') === 'rejected')>Rejected</option>
             </select>
-
             <button type="submit" class="text-sm border border-gray-200 rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-50">
                 Search
             </button>
         </form>
 
-        <!-- Table -->
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <!-- Table (desktop) -->
+        <div class="hidden md:block bg-white rounded-xl shadow-sm overflow-hidden">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="text-left text-xs text-gray-400 uppercase border-b border-gray-100 bg-gray-50">
@@ -104,19 +99,27 @@
                             <td class="px-5 py-3 text-right">
                                 <div class="flex items-center justify-end gap-2 flex-wrap">
                                     @if ($adoption->status === 'pending')
-                                        <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Setujui permohonan adopsi ini? Status kucing akan berubah menjadi Adopted.');">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="status" value="approved">
-                                            <button type="submit" class="text-emerald-700 hover:underline text-sm font-medium">Approve</button>
-                                        </form>
-                                        <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Tolak permohonan adopsi ini?');">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="status" value="rejected">
-                                            <button type="submit" class="text-red-600 hover:underline text-sm font-medium">Reject</button>
-                                        </form>
+                                        @role('admin')
+                                            <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Setujui permohonan adopsi ini? Status kucing akan berubah menjadi Adopted.');">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="text-emerald-700 hover:underline text-sm font-medium">Approve</button>
+                                            </form>
+                                            <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Tolak permohonan adopsi ini?');">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="rejected">
+                                                <button type="submit" class="text-red-600 hover:underline text-sm font-medium">Reject</button>
+                                            </form>
+                                        @endrole
                                     @endif
+                                    <a href="{{ route('adoptions.show', $adoption) }}" class="inline-flex items-center justify-center h-8 w-8 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-emerald-700 transition" title="View details">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </a>
                                     <a href="{{ route('adoptions.edit', $adoption) }}" class="text-gray-600 hover:underline text-sm font-medium">Edit</a>
                                     @role('admin')
                                         <form action="{{ route('adoptions.destroy', $adoption) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus permohonan adopsi ini?');">
@@ -137,6 +140,92 @@
             </table>
 
             <div class="px-5 py-4 border-t border-gray-100">
+                {{ $adoptions->links() }}
+            </div>
+        </div>
+
+        <!-- Cards (mobile) -->
+        <div class="md:hidden space-y-3">
+            @forelse ($adoptions as $adoption)
+                <div class="bg-white rounded-xl shadow-sm p-4">
+                    <div class="flex items-start gap-3">
+                        @if ($adoption->cat && $adoption->cat->photo)
+                            <img src="{{ str_starts_with($adoption->cat->photo, 'http') ? $adoption->cat->photo : Storage::url($adoption->cat->photo) }}" class="h-12 w-12 rounded-lg object-cover shrink-0" loading="lazy">
+                        @else
+                            <div class="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 text-xs shrink-0">N/A</div>
+                        @endif
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="font-semibold text-gray-800 truncate">{{ $adoption->cat->name ?? 'Cat deleted' }}</div>
+                                <span class="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-semibold
+                                    {{ match($adoption->status) {
+                                        'approved' => 'bg-emerald-100 text-emerald-700',
+                                        'rejected' => 'bg-red-100 text-red-700',
+                                        default => 'bg-amber-100 text-amber-700',
+                                    } }}">
+                                    {{ strtoupper($adoption->status) }}
+                                </span>
+                            </div>
+                            <div class="text-xs text-gray-500 truncate mt-0.5">{{ $adoption->adopter_name }} &middot; {{ $adoption->adopter_phone }}</div>
+                            @if ($adoption->adopter_address)
+                                <div class="text-xs text-gray-400 truncate mt-0.5">{{ $adoption->adopter_address }}</div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+                        <span class="text-xs text-gray-400 shrink-0">{{ $adoption->created_at->format('d M Y') }}</span>
+
+                        <div class="flex items-center gap-1">
+                            @if ($adoption->status === 'pending')
+                                @role('admin')
+                                    <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Setujui permohonan adopsi ini? Status kucing akan berubah menjadi Adopted.');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="approved">
+                                        <button type="submit" class="px-2 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-medium">Approve</button>
+                                    </form>
+                                    <form action="{{ route('adoptions.updateStatus', $adoption) }}" method="POST" onsubmit="return confirm('Tolak permohonan adopsi ini?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="rejected">
+                                        <button type="submit" class="px-2 py-1 rounded-md bg-red-50 text-red-700 text-xs font-medium">Reject</button>
+                                    </form>
+                                @endrole
+                            @endif
+
+                            <a href="{{ route('adoptions.show', $adoption) }}" class="inline-flex items-center justify-center h-7 w-7 rounded-md text-gray-500 hover:bg-gray-100 hover:text-emerald-700" title="View">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </a>
+
+                            <a href="{{ route('adoptions.edit', $adoption) }}" class="inline-flex items-center justify-center h-7 w-7 rounded-md text-gray-500 hover:bg-gray-100 hover:text-emerald-700" title="Edit">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </a>
+
+                            @role('admin')
+                                <form action="{{ route('adoptions.destroy', $adoption) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus permohonan adopsi ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="inline-flex items-center justify-center h-7 w-7 rounded-md text-gray-500 hover:bg-red-50 hover:text-red-600" title="Delete">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            @endrole
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="bg-white rounded-xl shadow-sm p-8 text-center text-gray-400">Belum ada permohonan adopsi.</div>
+            @endforelse
+
+            <div class="pt-2">
                 {{ $adoptions->links() }}
             </div>
         </div>
