@@ -4,7 +4,7 @@
         <h2 class="text-xl font-bold text-gray-800">
             Cats
         </h2>
-        <div class="relative mt-4">
+        <form method="GET" action="{{ route('medical-records.index') }}" class="relative mt-4">
             <svg xmlns="http://www.w3.org/2000/svg"
                 class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none"
                 fill="none"
@@ -16,20 +16,19 @@
                     d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
-                id="searchCat"
                 type="text"
+                name="search"
+                value="{{ request('search') }}"
                 placeholder="Search cat..."
                 class="w-full rounded-full border border-gray-200 pl-12 pr-4 py-3 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-        </div>
+        </form>
     </div>
 
     <!-- List -->
     <div id="catList" class="flex-1 lg:overflow-y-auto divide-y divide-gray-100">
         @forelse($cats as $cat)
-            <a href="{{ route('medical-records.index',['cat'=>$cat->id]) }}"
-                class="cat-item block"
-                data-name="{{ strtolower($cat->name) }}"
-                data-breed="{{ strtolower($cat->breed) }}">
+            <a href="{{ route('medical-records.index',['cat'=>$cat->id, 'search'=>request('search')]) }}"
+                class="cat-item block">
                 <div class="transition-colors duration-150 hover:bg-gray-50 px-5 py-4
                     {{ optional($selectedCat)->id == $cat->id
                         ? 'bg-emerald-50 border-l-4 border-emerald-600'
@@ -37,7 +36,7 @@
                     <div class="flex items-center gap-3">
                         @if($cat->photo)
                             <img
-                                src="{{ str_starts_with($cat->photo, 'http') ? $cat->photo : asset('storage/'.$cat->photo) }}"
+                                src="{{ $cat->photo_url }}"
                                 class="w-12 h-12 rounded-full object-cover border border-gray-100 shrink-0" loading="lazy">
                         @else
                             <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-xl shrink-0">
@@ -73,7 +72,7 @@
             </a>
         @empty
             <div class="px-5 py-8 text-center text-sm text-gray-400">
-                Belum ada data kucing.
+                Tidak ada kucing yang cocok dengan pencarian.
             </div>
         @endforelse
     </div>
@@ -97,22 +96,3 @@
         </div>
     @endif
 </div>
-
-@push('scripts')
-<script>
-const searchInput = document.getElementById('searchCat');
-const cats = document.querySelectorAll('.cat-item');
-searchInput.addEventListener('keyup', function () {
-    const keyword = this.value.toLowerCase();
-    cats.forEach(cat => {
-        const name = cat.dataset.name;
-        const breed = cat.dataset.breed;
-        if (name.includes(keyword) || breed.includes(keyword)) {
-            cat.style.display = '';
-        } else {
-            cat.style.display = 'none';
-        }
-    });
-});
-</script>
-@endpush

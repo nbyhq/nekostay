@@ -2,7 +2,6 @@
     <x-slot name="header">
         <div>
             <h2 class="font-bold text-2xl text-gray-800">Profile Management</h2>
-            <p class="text-sm text-gray-500 mt-1">Manage your account credentials and personal preferences.</p>
         </div>
     </x-slot>
 

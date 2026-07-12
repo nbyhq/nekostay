@@ -3,7 +3,6 @@
         <div class="flex items-center justify-between">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800">Manage Staff</h2>
-                <p class="text-sm text-gray-500 mt-1">Kelola akun staff dan admin yang bisa mengakses sistem.</p>
             </div>
             <a href="{{ route('staff.create') }}" class="bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">
                 + Add New Staff

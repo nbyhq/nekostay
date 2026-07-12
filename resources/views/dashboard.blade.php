@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-2xl text-gray-800">Dashboard</h2>
-        <p class="text-sm text-gray-500 mt-1">Overview kondisi shelter NekoStay hari ini.</p>
     </x-slot>
 
     <div class="space-y-6">
@@ -53,7 +52,8 @@
                     @endif
                 </div>
 
-                <table class="w-full text-sm">
+                <div class="overflow-x-auto -mx-2 px-2">
+                <table class="w-full text-sm min-w-[480px]">
                     <thead>
                         <tr class="text-left text-xs text-gray-400 uppercase border-b border-gray-100">
                             <th class="pb-2">Cat</th>
@@ -87,6 +87,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
             </div>
 
             <div class="bg-white rounded-xl shadow-sm p-6">
