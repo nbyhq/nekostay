@@ -33,11 +33,6 @@
             <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
                 <a href="/" class="flex items-center gap-2">
                     <img src="{{ asset('images/logo.png') }}" class="h-9 w-9 rounded-lg object-cover shrink-0 block" alt="NekoStay logo">
-                    {{-- <div class="h-9 w-9 rounded-lg bg-emerald-600 flex items-center justify-center shrink-0">
-                        <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 14c-3.5 0-6 2.5-6 5v1h12v-1c0-2.5-2.5-5-6-5z M7 8a2 2 0 100-4 2 2 0 000 4z M17 8a2 2 0 100-4 2 2 0 000 4z M4 12a2 2 0 100-4 2 2 0 000 4z M20 12a2 2 0 100-4 2 2 0 000 4z"/>
-                        </svg>
-                    </div> --}}
                     <div>
                         <div class="font-bold text-emerald-800 leading-tight">NekoStay</div>
                         <div class="text-[11px] text-gray-500 leading-tight -mt-0.5">Rescue Management</div>
@@ -288,14 +283,7 @@
         <footer class="border-t border-gray-100 bg-white">
             <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="col-span-1 sm:col-span-2 md:col-span-1">
-                    <div class="flex items-center gap-2">
-                        <div class="h-8 w-8 rounded-lg bg-emerald-600 flex items-center justify-center">
-                            <svg class="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 14c-3.5 0-6 2.5-6 5v1h12v-1c0-2.5-2.5-5-6-5z M7 8a2 2 0 100-4 2 2 0 000 4z M17 8a2 2 0 100-4 2 2 0 000 4z M4 12a2 2 0 100-4 2 2 0 000 4z M20 12a2 2 0 100-4 2 2 0 000 4z"/>
-                            </svg>
-                        </div>
-                        <span class="font-bold text-emerald-800">NekoStay</span>
-                    </div>
+                    <img src="{{ asset('images/logo.png') }}" class="h-9 w-9 rounded-lg object-cover shrink-0 block" alt="NekoStay logo">
                     <p class="mt-3 text-sm text-gray-400 max-w-xs">Helping cat rescue shelters keep every intake, checkup, and adoption organized in one place.</p>
                 </div>
 
