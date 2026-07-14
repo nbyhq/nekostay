@@ -11,7 +11,17 @@ class MedicalRecordController extends Controller
 {
     public function index(Request $request)
 {
-    $cats = Cat::orderBy('name')->get();
+    $cats = Cat::query()
+        ->when($request->filled('search'), function ($query) use ($request) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('breed', 'like', "%{$search}%");
+            });
+        })
+        ->orderBy('name')
+        ->paginate(6)
+        ->withQueryString();
 
     $selectedCat = null;
 

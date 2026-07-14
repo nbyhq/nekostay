@@ -4,8 +4,10 @@ use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MedicalRecordController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,19 +22,20 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('cats', CatController::class)->except(['destroy', 'show']);
-
     Route::resource('adoptions', AdoptionController::class)->except(['destroy', 'show']);
-    Route::patch('/adoptions/{adoption}/status', [AdoptionController::class, 'updateStatus'])
-        ->name('adoptions.updateStatus');
+    Route::get('/adoptions/{adoption}', [AdoptionController::class, 'show'])->name('adoptions.show');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/cats/{cat}', [CatController::class, 'destroy'])->name('cats.destroy');
     Route::delete('/adoptions/{adoption}', [AdoptionController::class, 'destroy'])->name('adoptions.destroy');
+    Route::patch('/adoptions/{adoption}/status', [AdoptionController::class, 'updateStatus'])
+        ->name('adoptions.updateStatus');
+
+    Route::resource('staff', UserController::class)->except(['show']);
 });
 
 Route::middleware(['auth'])->group(function () {
-
     Route::resource('medical-records', MedicalRecordController::class)
         ->only([
             'index',
@@ -40,7 +43,6 @@ Route::middleware(['auth'])->group(function () {
             'update',
             'destroy',
         ]);
-
 });
 
 require __DIR__.'/auth.php';

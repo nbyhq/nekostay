@@ -10,7 +10,7 @@
             @if($selectedCat->photo)
 
                 <img
-                    src="{{ str_starts_with($selectedCat->photo, 'http') ? $selectedCat->photo : asset('storage/'.$selectedCat->photo) }}"
+                    src="{{ $selectedCat->photo_url }}"
                     alt="{{ $selectedCat->name }}"
                     class="w-full h-full object-cover">
 
@@ -53,18 +53,15 @@
 
             </h3>
 
-            <span class="px-3 py-1 rounded-full text-sm font-semibold
-
-                @if($selectedCat->status=='Healthy')
-                    bg-green-100 text-green-700
-                @elseif($selectedCat->status=='Treatment')
-                    bg-yellow-100 text-yellow-700
-                @else
-                    bg-red-100 text-red-700
-                @endif">
-
-                {{ $selectedCat->status }}
-
+            <span class="px-2 py-0.5 rounded-full text-xs font-semibold
+                {{ match($selectedCat->status) {
+                    'ready_for_adoption' => 'bg-emerald-100 text-emerald-700',
+                    'rescued' => 'bg-amber-100 text-amber-700',
+                    'in_treatment' => 'bg-red-100 text-red-700',
+                    'adopted' => 'bg-blue-100 text-blue-700',
+                    default => 'bg-gray-100 text-gray-600',
+                } }}">
+                {{ strtoupper(str_replace('_', ' ', $selectedCat->status)) }}
             </span>
 
         </div>

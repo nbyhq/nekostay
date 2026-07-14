@@ -1,11 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="font-bold text-2xl text-gray-800">Manage Rescued Cats</h2>
-                <p class="text-sm text-gray-500 mt-1">Overview and status of all felines currently in care.</p>
-            </div>
-            <a href="{{ route('cats.create') }}" class="bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 class="font-bold text-2xl text-gray-800">Cat Management</h2>
+            <a href="{{ route('cats.create') }}" class="shrink-0 whitespace-nowrap bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">
                 + Add New Cat
             </a>
         </div>
@@ -41,8 +38,8 @@
             </button>
         </form>
 
-        <!-- Table -->
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <!-- Table (desktop) -->
+        <div class="hidden md:block bg-white rounded-xl shadow-sm overflow-hidden">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="text-left text-xs text-gray-400 uppercase border-b border-gray-100 bg-gray-50">
@@ -58,7 +55,7 @@
                         <tr class="border-b border-gray-50 hover:bg-gray-50">
                             <td class="px-5 py-3">
                                 @if ($cat->photo)
-                                    <img src="{{ str_starts_with($cat->photo, "http") ? $cat->photo : Storage::url($cat->photo) }}" class="h-12 w-12 rounded-lg object-cover" loading="lazy">
+                                    <img src="{{ $cat->photo_url }}" class="h-12 w-12 rounded-lg object-cover" loading="lazy">
                                 @else
                                     <div class="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 text-xs">No Photo</div>
                                 @endif
@@ -72,7 +69,7 @@
                                 <span class="inline-block px-2 py-0.5 rounded-full text-xs bg-pink-50 text-pink-600">{{ ucfirst($cat->gender ?? '-') }}</span>
                             </td>
                             <td class="px-5 py-3">
-                                <span class="px-2 py-0.5 rounded-full text-xs font-semibold
+                                <span class="px-2 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap
                                     {{ match($cat->status) {
                                         'ready_for_adoption' => 'bg-emerald-100 text-emerald-700',
                                         'pending' => 'bg-amber-100 text-amber-700',
@@ -106,6 +103,61 @@
             </table>
 
             <div class="px-5 py-4 border-t border-gray-100">
+                {{ $cats->links() }}
+            </div>
+        </div>
+
+        <!-- Cards (mobile) -->
+        <div class="md:hidden space-y-3">
+            @forelse ($cats as $cat)
+                <div class="bg-white rounded-xl shadow-sm p-4">
+                    <div class="flex items-start gap-3">
+                        @if ($cat->photo)
+                            <img src="{{ $cat->photo_url }}" class="h-14 w-14 rounded-lg object-cover shrink-0" loading="lazy">
+                        @else
+                            <div class="h-14 w-14 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 text-[10px] shrink-0 text-center">No Photo</div>
+                        @endif
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="font-semibold text-gray-800 truncate">{{ $cat->name }}</div>
+                                <span class="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap
+                                    {{ match($cat->status) {
+                                        'ready_for_adoption' => 'bg-emerald-100 text-emerald-700',
+                                        'pending' => 'bg-amber-100 text-amber-700',
+                                        'in_treatment' => 'bg-red-100 text-red-700',
+                                        'adopted' => 'bg-blue-100 text-blue-700',
+                                        default => 'bg-gray-100 text-gray-600',
+                                    } }}">
+                                    {{ strtoupper(str_replace('_', ' ', $cat->status)) }}
+                                </span>
+                            </div>
+                            <div class="text-xs text-gray-500 truncate mt-0.5">{{ $cat->breed ?? '-' }}</div>
+                            <div class="flex items-center gap-1.5 mt-1.5">
+                                <span class="px-2 py-0.5 rounded-full text-[10px] bg-blue-50 text-blue-600">{{ $cat->age_estimate ?? '-' }}</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] bg-pink-50 text-pink-600">{{ ucfirst($cat->gender ?? '-') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-end gap-4">
+                        @if ($cat->status === 'ready_for_adoption')
+                            <a href="{{ route('adoptions.create', ['cat' => $cat->id]) }}" class="text-emerald-700 text-sm font-medium">Adopt</a>
+                        @endif
+                        <a href="{{ route('cats.edit', $cat) }}" class="text-emerald-700 text-sm font-medium">Edit</a>
+                        @role('admin')
+                            <form action="{{ route('cats.destroy', $cat) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data kucing ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 text-sm font-medium">Hapus</button>
+                            </form>
+                        @endrole
+                    </div>
+                </div>
+            @empty
+                <div class="bg-white rounded-xl shadow-sm p-8 text-center text-gray-400">Belum ada data kucing.</div>
+            @endforelse
+
+            <div class="pt-2">
                 {{ $cats->links() }}
             </div>
         </div>

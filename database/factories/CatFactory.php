@@ -1,10 +1,7 @@
 <?php
-
 namespace Database\Factories;
-
 use App\Models\Cat;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
 /**
  * @extends Factory<Cat>
  */
@@ -16,6 +13,8 @@ class CatFactory extends Factory
         $breeds = ['Domestic Shorthair', 'Ginger Tabby', 'British Shorthair', 'Bombay', 'Persian', 'Calico', 'Siamese', 'Scottish Fold', 'Calico Mix'];
         $colors = ['Orange', 'White', 'Black', 'Gray', 'Cream', 'Brown Tabby'];
 
+        $photoIndex = $this->faker->numberBetween(1, 15);
+
         return [
             'name' => $this->faker->randomElement($names),
             'breed' => $this->faker->randomElement($breeds),
@@ -24,7 +23,7 @@ class CatFactory extends Factory
             'color' => $this->faker->randomElement($colors),
             'status' => $this->faker->randomElement(['rescued', 'in_treatment', 'ready_for_adoption', 'adopted']),
             'rescue_location' => $this->faker->streetName(),
-            'photo' => 'https://cataas.com/cat?width=150&height=150&_=' . $this->faker->unique()->numberBetween(1, 999999),
+            'photo' => 'images/seed-cats/cat-' . $photoIndex . '.jpg',
             'description' => $this->faker->sentence(12),
         ];
     }
