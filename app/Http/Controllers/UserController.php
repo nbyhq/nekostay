@@ -53,15 +53,17 @@ class UserController extends Controller
         return redirect()->route('staff.index')->with('success', 'Staff account created successfully.');
     }
 
-    public function edit(User $user)
+    public function edit(User $staff)
     {
+        $user = $staff;
         $roles = Role::pluck('name');
 
         return view('staff.edit', compact('user', 'roles'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $staff)
     {
+        $user = $staff;
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
@@ -82,8 +84,9 @@ class UserController extends Controller
         return redirect()->route('staff.index')->with('success', 'Staff account updated successfully.');
     }
 
-    public function destroy(User $user)
+    public function destroy(User $staff)
     {
+        $user = $staff;
         if ($user->id === auth()->id()) {
             return redirect()->route('staff.index')->with('error', 'You cannot delete your own account.');
         }

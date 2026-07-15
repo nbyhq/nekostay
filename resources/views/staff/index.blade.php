@@ -56,9 +56,9 @@
                             </td>
                             <td class="px-5 py-3 text-gray-500">{{ $user->created_at->format('d M Y') }}</td>
                             <td class="px-5 py-3 text-right space-x-2">
-                                <a href="{{ route('staff.edit', $user) }}" class="text-emerald-700 hover:underline text-sm font-medium">Edit</a>
+                                <a href="{{ route('staff.edit', ['staff' => $user->id]) }}" class="text-emerald-700 hover:underline text-sm font-medium">Edit</a>
                                 @if ($user->id !== auth()->id())
-                                    <form action="{{ route('staff.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus akun {{ $user->name }}?');">
+                                    <form action="{{ route('staff.destroy', ['staff' => $user->id]) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus akun {{ $user->name }}?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:underline text-sm font-medium">Delete</button>
