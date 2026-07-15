@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
         <title>{{ config('app.name', 'NekoStay') }} — Rescue Management</title>
         <meta name="description" content="NekoStay helps cat rescue shelters manage intakes, medical records, and adoptions in one place.">
 
