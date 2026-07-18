@@ -1,58 +1,131 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# NekoStay - Rescue Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi manajemen shelter penyelamatan kucing jalanan berbasis Laravel 13. Aplikasi ini membantu tim rescue mengelola data kucing yang diselamatkan, mencatat riwayat medis, memproses pengajuan adopsi, serta mengelola akun staff — semuanya terpusat dalam satu dashboard dengan kontrol akses berbasis role (Admin & Staff). Dilengkapi REST API untuk integrasi eksternal dan tampilan yang responsif di berbagai perangkat.
 
-## About Laravel
+## Anggota Kelompok
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Nama | NIM | Kontribusi |
+|---|---|---|
+| Muhammad Nawa Bayhaqi | 230102092 | Setup project (auth, role, database), layout & dashboard, model & seeder, REST API, fitur Manage Staff, optimasi performa, perbaikan responsivitas mobile, redesign Profile Settings |
+| Muhammad Fathi Ulumuddin | 230102086 | Desain UI/UX aplikasi (Figma), fitur Cat Management (controller, validasi, form create/edit) |
+| Naufal Akbar Muhadzzib | 230102100 | Fitur Medical Records (CRUD rekam medis), redesign landing page & halaman Welcome/Login |
+| Abdullah Nurhadi Krishnamurti | 230102003 | Perancangan ERD, halaman Welcome & Login, kontribusi fitur Adoption Requests |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Autentikasi & Role Management** — Login dengan 2 role (Admin & Staff) menggunakan Laravel Breeze + Spatie Permission. Registrasi publik dinonaktifkan demi keamanan; akun staff hanya bisa dibuat oleh Admin melalui fitur Manage Staff.
+- **Dashboard** — Ringkasan statistik shelter (total kucing, siap adopsi, berhasil diadopsi, pengajuan pending), grafik tren rescue vs adopsi bulanan (Chart.js), dan daftar aktivitas terbaru.
+- **Manajemen Kucing (Cat Management)** — CRUD lengkap data kucing (nama, breed, umur, gender, warna, status, lokasi rescue, foto), dengan search, filter status, dan pagination.
+- **Rekam Medis (Medical Records)** — Pencatatan riwayat kesehatan per kucing (diagnosis, treatment, berat badan, suhu tubuh, dokter), ditampilkan dalam timeline, dengan filter status (Healthy/Treatment/Recovery).
+- **Manajemen Adopsi (Adoption Requests)** — Pengajuan adopsi oleh staff, approval/rejection oleh Admin, dengan sinkronisasi otomatis status kucing saat disetujui.
+- **Manage Staff** — Admin dapat membuat, mengedit, dan menghapus akun staff/admin lainnya.
+- **Profile Settings** — Update profil, foto profil, ganti password, dan hapus akun.
+- **REST API** — 2 resource (Cats & Adoptions) dengan endpoint CRUD lengkap berformat JSON (lihat dokumentasi di bawah).
+- **UI/UX Responsif** — Tampilan konsisten dan nyaman digunakan di desktop maupun mobile.
 
-## Learning Laravel
+## Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Backend:** Laravel 13, PHP 8.3
+- **Database:** MySQL
+- **Frontend:** Blade, Tailwind CSS, Alpine.js
+- **Package Tambahan:** Spatie Laravel Permission (role & permission), Chart.js (grafik dashboard)
+- **Data Dummy:** Faker (data teks), Cataas API (foto kucing untuk seeder)
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalasi
 
 ```bash
-composer require laravel/boost --dev
+git clone https://github.com/nbyhq/nekostay.git
+cd nekostay
 
-php artisan boost:install
+composer install
+npm install
+npm run build
+
+cp .env.example .env
+php artisan key:generate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Sesuaikan koneksi database di file `.env` (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`), lalu jalankan:
 
-## Contributing
+```bash
+php artisan migrate --seed
+php artisan storage:link
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Buka `http://127.0.0.1:8000` di browser.
 
-## Code of Conduct
+## Akun Default
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@nekostay.com | password |
+| Staff | staff@nekostay.com | password |
 
-## Security Vulnerabilities
+## Dokumentasi REST API
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Semua endpoint di bawah mengembalikan response dalam format JSON.
 
-## License
+### Cats
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Method | Endpoint | Deskripsi |
+|---|---|---|
+| GET | `/api/cats` | Menampilkan daftar kucing (mendukung pagination, `?search=` dan `?status=`) |
+| GET | `/api/cats/{id}` | Menampilkan detail satu kucing |
+| POST | `/api/cats` | Menambah data kucing baru |
+| PUT/PATCH | `/api/cats/{id}` | Memperbarui data kucing |
+| DELETE | `/api/cats/{id}` | Menghapus data kucing |
+
+**Contoh request POST `/api/cats`:**
+```json
+{
+    "name": "Luna",
+    "breed": "Domestic Shorthair",
+    "gender": "female",
+    "age_estimate": "2 years",
+    "color": "Orange",
+    "status": "rescued",
+    "rescue_location": "Jl. Merdeka No. 10",
+    "description": "Ditemukan di dekat pasar."
+}
+```
+
+### Adoptions
+
+| Method | Endpoint | Deskripsi |
+|---|---|---|
+| GET | `/api/adoptions` | Menampilkan daftar pengajuan adopsi (mendukung pagination dan `?status=`) |
+| GET | `/api/adoptions/{id}` | Menampilkan detail satu pengajuan adopsi |
+| POST | `/api/adoptions` | Membuat pengajuan adopsi baru |
+| PUT/PATCH | `/api/adoptions/{id}` | Memperbarui data pengajuan adopsi |
+| DELETE | `/api/adoptions/{id}` | Menghapus pengajuan adopsi |
+
+**Contoh request POST `/api/adoptions`:**
+```json
+{
+    "cat_id": 1,
+    "adopter_name": "Budi Santoso",
+    "adopter_phone": "08123456789",
+    "adopter_address": "Jl. Sudirman No. 5, Jakarta"
+}
+```
+
+## Struktur Role & Hak Akses
+
+| Aksi | Admin | Staff |
+|---|---|---|
+| Lihat, tambah, edit data kucing | ✅ | ✅ |
+| Hapus data kucing | ✅ | ❌ |
+| Lihat, tambah, edit rekam medis | ✅ | ✅ |
+| Ajukan permohonan adopsi | ✅ | ✅ |
+| Approve/Reject/Edit/Hapus permohonan adopsi | ✅ | ❌ (hanya bisa melihat detail) |
+| Kelola akun staff (Manage Staff) | ✅ | ❌ |
+
+## Catatan Teknis
+
+- Fitur reset password sudah terimplementasi penuh, namun pengiriman email nyata memerlukan konfigurasi SMTP tambahan di `.env` (saat ini menggunakan driver `log` untuk keperluan development — link reset password dapat dilihat di `storage/logs/laravel.log`).
+- Foto kucing pada data seeder menggunakan [Cataas API](https://cataas.com) (Cat as a Service) sebagai sumber gambar dummy. Foto yang diunggah pengguna melalui aplikasi (form Add/Edit Cat) tersimpan secara lokal di `storage/app/public`.
+
+## Lesson Learned
+
+Dokumentasi tantangan dan pembelajaran selama pengembangan proyek ini dapat dilihat di file [`LESSON_LEARNED.md`](./LESSON_LEARNED.md).
