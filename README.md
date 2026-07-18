@@ -125,7 +125,48 @@ Semua endpoint di bawah mengembalikan response dalam format JSON.
 
 - Fitur reset password sudah terimplementasi penuh, namun pengiriman email nyata memerlukan konfigurasi SMTP tambahan di `.env` (saat ini menggunakan driver `log` untuk keperluan development — link reset password dapat dilihat di `storage/logs/laravel.log`).
 - Foto kucing pada data seeder menggunakan [Cataas API](https://cataas.com) (Cat as a Service) sebagai sumber gambar dummy. Foto yang diunggah pengguna melalui aplikasi (form Add/Edit Cat) tersimpan secara lokal di `storage/app/public`.
+## Screenshot Aplikasi
 
-## Lesson Learned
+### Landing Page & Autentikasi
 
-Dokumentasi tantangan dan pembelajaran selama pengembangan proyek ini dapat dilihat di file [`LESSON_LEARNED.md`](./LESSON_LEARNED.md).
+| Landing Page | Login |
+|---|---|
+| ![Landing Page](docs/screenshots/landing-page.png) | ![Login](docs/screenshots/login-page.png) |
+
+### Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Cat Management
+
+| Daftar Kucing | Tambah Kucing |
+|---|---|
+| ![Cat Management](docs/screenshots/cat-management.png) | ![Register New Cat](docs/screenshots/register-new-cat.png) |
+
+![Edit Cat](docs/screenshots/edit-cat.png)
+
+### Medical Records
+
+| Halaman Utama | Tambah Rekam Medis |
+|---|---|
+| ![Medical Records](docs/screenshots/medical-records.png) | ![Add Medical Record](docs/screenshots/add-medical-records.png) |
+
+### Adoption Requests
+
+| Daftar Pengajuan | Detail Pengajuan |
+|---|---|
+| ![Adoption Request](docs/screenshots/adoption-request.png) | ![Adoption Request Detail](docs/screenshots/adoption-request-detail.png) |
+
+| Ajukan Baru | Edit Pengajuan |
+|---|---|
+| ![New Adoption Request](docs/screenshots/new-adoption-request.png) | ![Edit Adoption Request](docs/screenshots/edit-adoption-request.png) |
+
+### Manage Staff
+
+| Daftar Staff | Tambah Staff |
+|---|---|
+| ![Manage Staff](docs/screenshots/manage-staff.png) | ![Add New Staff](docs/screenshots/add-new-staff.png) |
+
+### Profile Settings
+
+![Profile Management](docs/screenshots/profile-management.png)
