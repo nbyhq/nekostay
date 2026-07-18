@@ -2,7 +2,6 @@
     <x-slot name="header">
         <div>
             <h2 class="font-bold text-2xl text-gray-800">Edit Adoption Request</h2>
-            <p class="text-sm text-gray-500 mt-1">Update adopter details or change the review status.</p>
         </div>
     </x-slot>
 

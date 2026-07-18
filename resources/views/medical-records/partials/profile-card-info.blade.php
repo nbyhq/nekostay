@@ -105,9 +105,9 @@
 
                 <p class="font-semibold">
 
-                    {{ $selectedCat->weight ?? '-' }}
+                    {{ $latestRecord->weight ?? '-' }}
 
-                    @if(!empty($selectedCat->weight))
+                    @if(!empty($latestRecord->weight))
                         kg
                     @endif
 

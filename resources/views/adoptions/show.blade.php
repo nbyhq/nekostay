@@ -3,7 +3,6 @@
         <div class="flex items-center justify-between">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800">Adoption Request Detail</h2>
-                <p class="text-sm text-gray-500 mt-1">Full information about the adopter and requested cat.</p>
             </div>
             <a href="{{ route('adoptions.index') }}" class="text-sm font-medium text-gray-600 hover:text-emerald-700 transition">
                 &larr; Back to list

@@ -2,7 +2,6 @@
     <x-slot name="header">
         <div>
             <h2 class="font-bold text-2xl text-gray-800">New Adoption Request</h2>
-            <p class="text-sm text-gray-500 mt-1">Submit an application on behalf of a prospective adopter.</p>
         </div>
     </x-slot>
 
