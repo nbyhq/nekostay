@@ -1,98 +1,222 @@
 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 flex flex-col lg:h-[calc(100vh-180px)]">
+
     <!-- Header -->
     <div class="p-5 border-b border-gray-100">
+
         <h2 class="text-xl font-bold text-gray-800">
             Cats
         </h2>
-        <form method="GET" action="{{ route('medical-records.index') }}" class="relative mt-4">
+
+        <!-- Search -->
+        <form method="GET"
+              action="{{ route('medical-records.index') }}"
+              class="relative mt-4">
+
+            @if(request('cat_status'))
+                <input
+                    type="hidden"
+                    name="cat_status"
+                    value="{{ request('cat_status') }}">
+            @endif
+
             <svg xmlns="http://www.w3.org/2000/svg"
                 class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor">
+
                 <path stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"/>
+
             </svg>
+
             <input
                 type="text"
                 name="search"
                 value="{{ request('search') }}"
                 placeholder="Search cat..."
                 class="w-full rounded-full border border-gray-200 pl-12 pr-4 py-3 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+
         </form>
+
+        <!-- Filter -->
+        <div class="flex flex-wrap gap-2 mt-4">
+
+            <a href="{{ route('medical-records.index', array_merge(request()->except('cat_status'), ['cat_status' => null])) }}"
+                class="px-4 py-2 rounded-full text-xs font-semibold transition
+                {{ request('cat_status') == null
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                All
+            </a>
+
+            <a href="{{ route('medical-records.index', array_merge(request()->all(), ['cat_status'=>'rescued'])) }}"
+                class="px-4 py-2 rounded-full text-xs font-semibold transition
+                {{ request('cat_status') == 'rescued'
+                    ? 'bg-yellow-500 text-white'
+                    : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' }}">
+                Rescued
+            </a>
+
+            <a href="{{ route('medical-records.index', array_merge(request()->all(), ['cat_status'=>'in_treatment'])) }}"
+                class="px-4 py-2 rounded-full text-xs font-semibold transition
+                {{ request('cat_status') == 'in_treatment'
+                    ? 'bg-red-500 text-white'
+                    : 'bg-red-100 text-red-700 hover:bg-red-200' }}">
+                In Treatment
+            </a>
+
+            <a href="{{ route('medical-records.index', array_merge(request()->all(), ['cat_status'=>'adopted'])) }}"
+                class="px-4 py-2 rounded-full text-xs font-semibold transition
+                {{ request('cat_status') == 'adopted'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-blue-100 text-blue-700 hover:bg-blue-200' }}">
+                Adopted
+            </a>
+
+        </div>
+
     </div>
 
     <!-- List -->
-    <div id="catList" class="flex-1 lg:overflow-y-auto divide-y divide-gray-100">
+    <div id="catList"
+        class="flex-1 lg:overflow-y-auto divide-y divide-gray-100">
+
         @forelse($cats as $cat)
-            <a href="{{ route('medical-records.index',['cat'=>$cat->id, 'search'=>request('search')]) }}"
+
+            <a href="{{ route('medical-records.index',[
+                'cat'=>$cat->id,
+                'search'=>request('search'),
+                'cat_status'=>request('cat_status')
+            ]) }}"
                 class="cat-item block">
+
                 <div class="transition-colors duration-150 hover:bg-gray-50 px-5 py-4
                     {{ optional($selectedCat)->id == $cat->id
                         ? 'bg-emerald-50 border-l-4 border-emerald-600'
                         : 'border-l-4 border-transparent' }}">
+
                     <div class="flex items-center gap-3">
+
                         @if($cat->photo)
+
                             <img
                                 src="{{ $cat->photo_url }}"
-                                class="w-12 h-12 rounded-full object-cover border border-gray-100 shrink-0" loading="lazy">
+                                class="w-12 h-12 rounded-full object-cover border border-gray-100 shrink-0"
+                                loading="lazy">
+
                         @else
+
                             <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-xl shrink-0">
                                 🐱
                             </div>
+
                         @endif
+
                         <div class="flex-1 min-w-0">
+
                             <div class="flex items-center justify-between gap-2">
+
                                 <h3 class="font-semibold text-gray-800 truncate text-sm">
                                     {{ $cat->name }}
                                 </h3>
+
                                 <span class="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-semibold
                                     {{ match($cat->status) {
                                         'ready_for_adoption' => 'bg-emerald-100 text-emerald-700',
+                                        'rescued' => 'bg-yellow-100 text-yellow-700',
                                         'in_treatment' => 'bg-red-100 text-red-700',
                                         'adopted' => 'bg-blue-100 text-blue-700',
                                         default => 'bg-gray-100 text-gray-600',
                                     } }}">
-                                    {{ strtoupper(str_replace('_', ' ', $cat->status)) }}
+                                    {{ strtoupper(str_replace('_',' ',$cat->status)) }}
                                 </span>
+
                             </div>
+
                             <p class="text-xs text-gray-500 truncate mt-0.5">
                                 {{ $cat->breed }}
                             </p>
+
                             <div class="mt-1 flex items-center gap-1.5 text-[11px] text-gray-400">
+
                                 <span>{{ ucfirst($cat->gender) }}</span>
+
                                 <span>•</span>
+
                                 <span>{{ $cat->age_estimate }}</span>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </a>
+
         @empty
+
             <div class="px-5 py-8 text-center text-sm text-gray-400">
-                Tidak ada kucing yang cocok dengan pencarian.
+
+                No cats found.
+
             </div>
+
         @endforelse
+
     </div>
 
     <!-- Pagination -->
-    @if ($cats->hasPages())
+    @if($cats->hasPages())
+
         <div class="flex items-center justify-between px-5 py-3 border-t border-gray-100 text-xs">
-            @if ($cats->onFirstPage())
-                <span class="text-gray-300 font-medium">‹ Previous</span>
+
+            @if($cats->onFirstPage())
+
+                <span class="text-gray-300 font-medium">
+                    ‹ Previous
+                </span>
+
             @else
-                <a href="{{ $cats->previousPageUrl() }}" class="text-emerald-700 font-medium hover:underline">‹ Previous</a>
+
+                <a href="{{ $cats->previousPageUrl() }}"
+                    class="text-emerald-700 font-medium hover:underline">
+                    ‹ Previous
+                </a>
+
             @endif
 
-            <span class="text-gray-400">Page {{ $cats->currentPage() }} of {{ $cats->lastPage() }}</span>
+            <span class="text-gray-400">
 
-            @if ($cats->hasMorePages())
-                <a href="{{ $cats->nextPageUrl() }}" class="text-emerald-700 font-medium hover:underline">Next ›</a>
+                Page {{ $cats->currentPage() }}
+
+                of
+
+                {{ $cats->lastPage() }}
+
+            </span>
+
+            @if($cats->hasMorePages())
+
+                <a href="{{ $cats->nextPageUrl() }}"
+                    class="text-emerald-700 font-medium hover:underline">
+                    Next ›
+                </a>
+
             @else
-                <span class="text-gray-300 font-medium">Next ›</span>
+
+                <span class="text-gray-300 font-medium">
+                    Next ›
+                </span>
+
             @endif
+
         </div>
+
     @endif
+
 </div>
