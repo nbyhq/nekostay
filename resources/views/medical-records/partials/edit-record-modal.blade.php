@@ -7,9 +7,14 @@
         <!-- Header -->
         <div class="flex items-center justify-between border-b px-6 py-4">
 
-            <h2 class="text-xl font-bold text-gray-800">
-                Edit Medical Record
-            </h2>
+            <div>
+                <h2 class="text-xl font-bold text-gray-800">
+                    Edit Medical Record
+                </h2>
+                <p class="text-sm text-gray-500">
+                    Update the selected medical record.
+                </p>
+            </div>
 
             <button
                 type="button"
@@ -34,19 +39,20 @@
                 id="edit_cat_id"
                 name="cat_id">
 
-            <div class="p-6 grid grid-cols-2 gap-4">
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
 
                 <!-- Visit Date -->
                 <div>
 
-                    <label class="block text-sm font-medium mb-1">
-                        Visit Date
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Visit Date <span class="text-red-500">*</span>
                     </label>
 
                     <input
                         type="date"
                         id="edit_visit_date"
                         name="visit_date"
+                        required
                         class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500">
 
                 </div>
@@ -54,14 +60,16 @@
                 <!-- Doctor -->
                 <div>
 
-                    <label class="block text-sm font-medium mb-1">
-                        Doctor
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Doctor <span class="text-red-500">*</span>
                     </label>
 
                     <input
                         type="text"
                         id="edit_doctor"
                         name="doctor"
+                        required
+                        placeholder="Enter doctor's name"
                         class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500">
 
                 </div>
@@ -69,7 +77,7 @@
                 <!-- Weight -->
                 <div>
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
                         Weight (kg)
                     </label>
 
@@ -78,6 +86,7 @@
                         step="0.1"
                         id="edit_weight"
                         name="weight"
+                        placeholder="Example: 4.2"
                         class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500">
 
                 </div>
@@ -85,7 +94,7 @@
                 <!-- Temperature -->
                 <div>
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
                         Temperature (°C)
                     </label>
 
@@ -94,50 +103,54 @@
                         step="0.1"
                         id="edit_temperature"
                         name="temperature"
+                        placeholder="Example: 38.5"
                         class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500">
 
                 </div>
 
                 <!-- Status -->
-                <div class="col-span-2">
+                <div class="md:col-span-2">
 
-                    <label class="block text-sm font-medium mb-1">
-                        Status
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Status <span class="text-red-500">*</span>
                     </label>
 
                     <select
                         id="edit_status"
                         name="status"
+                        required
                         class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500">
 
-                        <option value="Routine">Routine</option>
+                        <option value="">Select Status</option>
+                        <option value="Healthy">Healthy</option>
                         <option value="Treatment">Treatment</option>
-                        <option value="Emergency">Emergency</option>
-                        <option value="Vaccination">Vaccination</option>
+                        <option value="Recovery">Recovery</option>
 
                     </select>
 
                 </div>
 
                 <!-- Diagnosis -->
-                <div class="col-span-2">
+                <div class="md:col-span-2">
 
-                    <label class="block text-sm font-medium mb-1">
-                        Diagnosis
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Diagnosis <span class="text-red-500">*</span>
                     </label>
 
                     <textarea
                         id="edit_diagnosis"
                         name="diagnosis"
                         rows="3"
-                        class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"></textarea>
+                        required
+                        placeholder="Enter diagnosis..."
+                        class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 resize-none"></textarea>
 
                 </div>
 
                 <!-- Treatment -->
-                <div class="col-span-2">
+                <div class="md:col-span-2">
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
                         Treatment
                     </label>
 
@@ -145,14 +158,15 @@
                         id="edit_treatment"
                         name="treatment"
                         rows="3"
-                        class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"></textarea>
+                        placeholder="Enter treatment..."
+                        class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 resize-none"></textarea>
 
                 </div>
 
                 <!-- Notes -->
-                <div class="col-span-2">
+                <div class="md:col-span-2">
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
                         Notes
                     </label>
 
@@ -160,7 +174,8 @@
                         id="edit_notes"
                         name="notes"
                         rows="3"
-                        class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"></textarea>
+                        placeholder="Additional notes..."
+                        class="w-full rounded-xl border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 resize-none"></textarea>
 
                 </div>
 
@@ -172,7 +187,7 @@
                 <button
                     type="button"
                     onclick="closeEditModal()"
-                    class="px-5 py-2 rounded-xl border border-gray-300 hover:bg-gray-100">
+                    class="px-5 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
 
                     Cancel
 
@@ -180,9 +195,9 @@
 
                 <button
                     type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl transition">
+                    class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-xl transition">
 
-                    Save Changes
+                    Update Record
 
                 </button>
 

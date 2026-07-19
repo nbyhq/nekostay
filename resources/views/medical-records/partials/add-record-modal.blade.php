@@ -56,14 +56,16 @@
                 <!-- Visit Date -->
                 <div>
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700">
                         Visit Date
+                        <span class="text-red-500">*</span>
                     </label>
 
                     <input
                         type="date"
                         name="visit_date"
                         value="{{ old('visit_date') }}"
+                        required
                         class="w-full rounded-xl border-gray-300">
 
                 </div>
@@ -71,8 +73,9 @@
                 <!-- Doctor -->
                 <div>
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700">
                         Doctor
+                        <span class="text-red-500">*</span>
                     </label>
 
                     <input
@@ -80,6 +83,7 @@
                         name="doctor"
                         value="{{ old('doctor') }}"
                         placeholder="Doctor Name"
+                        required
                         class="w-full rounded-xl border-gray-300">
 
                 </div>
@@ -87,8 +91,9 @@
                 <!-- Weight -->
                 <div>
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700">
                         Weight (kg)
+                        <span class="text-red-500">*</span>
                     </label>
 
                     <input
@@ -96,6 +101,7 @@
                         step="0.1"
                         name="weight"
                         value="{{ old('weight') }}"
+                        required
                         class="w-full rounded-xl border-gray-300">
 
                 </div>
@@ -103,8 +109,9 @@
                 <!-- Temperature -->
                 <div>
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700">
                         Temperature (°C)
+                        <span class="text-red-500">*</span>
                     </label>
 
                     <input
@@ -112,6 +119,7 @@
                         step="0.1"
                         name="temperature"
                         value="{{ old('temperature') }}"
+                        required
                         class="w-full rounded-xl border-gray-300">
 
                 </div>
@@ -119,8 +127,9 @@
                 <!-- Status -->
                 <div class="col-span-2">
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700">
                         Status
+                        <span class="text-red-500">*</span>
                     </label>
 
                     <select
@@ -151,14 +160,15 @@
                 <!-- Diagnosis -->
                 <div class="col-span-2">
 
-                    <label class="block text-sm font-medium mb-1">
+                    <label class="block text-sm font-medium text-gray-700">
                         Diagnosis
+                        <span class="text-red-500">*</span>
                     </label>
 
                     <textarea
                         name="diagnosis"
                         rows="3"
-                        class="w-full rounded-xl border-gray-300">{{ old('diagnosis') }}</textarea>
+                        class="w-full rounded-xl border-gray-300" required>{{ old('diagnosis') }}</textarea>
 
                 </div>
 
