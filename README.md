@@ -2,6 +2,11 @@
 
 Aplikasi manajemen shelter penyelamatan kucing jalanan berbasis Laravel 13. Aplikasi ini membantu tim rescue mengelola data kucing yang diselamatkan, mencatat riwayat medis, memproses pengajuan adopsi, serta mengelola akun staff — semuanya terpusat dalam satu dashboard dengan kontrol akses berbasis role (Admin & Staff). Dilengkapi REST API untuk integrasi eksternal dan tampilan yang responsif di berbagai perangkat.
 
+## Video Demo
+
+Video demonstrasi lengkap aplikasi NekoStay dapat ditonton di sini:
+[https://drive.google.com/drive/folders/1NGEIS_QkkhPaQvAOGUkne_k1zvb_6a3s?usp=sharing](https://drive.google.com/drive/folders/1NGEIS_QkkhPaQvAOGUkne_k1zvb_6a3s?usp=sharing)
+
 ## Anggota Kelompok
 
 | Nama | NIM | Kontribusi |
@@ -33,27 +38,78 @@ Aplikasi manajemen shelter penyelamatan kucing jalanan berbasis Laravel 13. Apli
 
 ## Instalasi
 
+### Prasyarat
+
+Pastikan sudah ter-install di komputer kamu:
+
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- MySQL >= 8.0
+- Git
+
+### Langkah-langkah
+
+**1. Clone repository**
+
 ```bash
 git clone https://github.com/nbyhq/nekostay.git
 cd nekostay
+```
 
+**2. Install dependency PHP dan JavaScript**
+
+```bash
 composer install
 npm install
 npm run build
+```
 
+**3. Siapkan file environment**
+
+```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-Sesuaikan koneksi database di file `.env` (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`), lalu jalankan:
+**4. Buat database kosong**
+
+Buat database baru bernama `nekostay` melalui phpMyAdmin atau MySQL CLI:
+
+```sql
+CREATE DATABASE nekostay;
+```
+
+Lalu sesuaikan kredensial koneksi database di file `.env`:
+DB_DATABASE=nekostay
+DB_USERNAME=root
+DB_PASSWORD=
+
+**5. Migrasi database dan isi data awal**
 
 ```bash
 php artisan migrate --seed
+```
+
+**6. Buat symbolic link storage** (wajib, agar foto kucing/profil bisa tampil)
+
+```bash
 php artisan storage:link
+```
+
+**7. Jalankan server**
+
+```bash
 php artisan serve
 ```
 
 Buka `http://127.0.0.1:8000` di browser.
+
+### Troubleshooting
+
+- **Foto tidak muncul setelah upload:** biasanya karena symbolic link `public/storage` belum dibuat atau menunjuk ke path yang salah (misal setelah folder project dipindahkan). Jalankan ulang: `rm public/storage && php artisan storage:link`.
+- **Email reset password tidak masuk ke inbox:** default `.env` menggunakan `MAIL_MAILER=log`, sehingga email tidak benar-benar terkirim — link reset dapat dilihat langsung di `storage/logs/laravel.log`.
+- **Error saat migrate:** pastikan database `nekostay` sudah dibuat lebih dulu dan kredensial di `.env` sudah benar.
 
 ## Akun Default
 
@@ -125,6 +181,7 @@ Semua endpoint di bawah mengembalikan response dalam format JSON.
 
 - Fitur reset password sudah terimplementasi penuh, namun pengiriman email nyata memerlukan konfigurasi SMTP tambahan di `.env` (saat ini menggunakan driver `log` untuk keperluan development — link reset password dapat dilihat di `storage/logs/laravel.log`).
 - Foto kucing pada data seeder menggunakan [Cataas API](https://cataas.com) (Cat as a Service) sebagai sumber gambar dummy. Foto yang diunggah pengguna melalui aplikasi (form Add/Edit Cat) tersimpan secara lokal di `storage/app/public`.
+
 ## Screenshot Aplikasi
 
 ### Landing Page & Autentikasi
